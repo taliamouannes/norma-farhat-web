@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
+
 /* RESET */
 html {
   scroll-behavior: smooth;
@@ -108,19 +109,25 @@ header {
   margin: 0 5px;
 }
 
+.lang-switch .divider {
+  margin: 0 6px;
+  color: #62373b;
+}
+
+
 /* BURGER MENU */
 .burger {
   display: none;
   flex-direction: column;
   gap: 5px;
   cursor: pointer;
+  margin-left: auto;
 }
 
 .burger span {
   width: 25px;
   height: 3px;
   background-color: #62373b;
-  border-radius: 2px;
   transition: all 0.3s ease;
 }
 
@@ -140,7 +147,6 @@ header {
     gap: 15px;
     display: none;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
   }
 
   .nav ul.open {
@@ -221,14 +227,11 @@ footer {
   position: relative;
 }
 
-.hero::after {
+.hero::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.05);
+  inset: 0;
+  background-color: rgba(98, 55, 59, 0.3);
   z-index: 1;
 }
 
@@ -237,22 +240,61 @@ footer {
   z-index: 2;
 }
 
-.hero h2 {
-  font-size: 5rem;
-  margin-bottom: 5px;
+.hero .lang-switch.top-lang-switch {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  z-index: 20;
+}
+
+/* Style lang switcher links like nav links */
+.top-lang-switch a {
+  position: relative;
+  text-decoration: none;
   color: #e4e1e1;
-  font-family: 'Parisienne', cursive;
-  font-weight: 200;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.top-lang-switch a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #e4e1e1;
+  transition: width 0.4s ease;
+  border-radius: 2px;
+}
+
+.top-lang-switch a:hover::after {
+  width: 100%;
+}
+
+.top-lang-switch .divider {
+  margin: 0 6px;
+  color: #e4e1e1;
+}
+
+
+.hero h2 {
+  font-size: 4rem;
+  margin-bottom: 10px;
+  color: #e4e1e1;
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
 }
 
 .hero p {
   font-size: 1.2rem;
-  color: #62373b;
+  color: #e0e0e0;
+  letter-spacing: 0.5px;
 }
 
 .hero h2,
 .hero p {
-  line-height: 1.2;
+  line-height: 1.3;
 }
 
 .scroll-down {
@@ -260,7 +302,7 @@ footer {
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  color: #674040;
+  color: #e0e0e0;
   font-size: 2rem;
   animation: bounce 2s infinite;
   z-index: 2;
@@ -303,7 +345,6 @@ footer {
   width: 100%;
   height: 450px;
   object-fit: cover;
-  border-radius: 4px;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
   opacity: 0;
   transform: translateY(40px);
@@ -314,7 +355,6 @@ footer {
   width: 100%;
   height: 215px;
   object-fit: cover;
-  border-radius: 4px;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
   opacity: 0;
   transform: translateY(40px);
@@ -344,9 +384,6 @@ footer {
 
 @media (max-width: 768px) {
 
-  .hero p{
-   color: #372a2d;
-  }
   .homegallery-grid {
     flex-wrap: wrap;
     gap: 15px;
@@ -368,6 +405,16 @@ footer {
   .column.double {
     flex-direction: column;
     gap: 15px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .hero h2 {
+    font-size: 2.8rem;
+  }
+  .hero p {
+    font-size: 1rem;
   }
 }
 
@@ -425,7 +472,6 @@ footer {
 .about-image img {
   width: 100%;
   height: auto;
-  border-radius: 8px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   opacity: 0;
   transform: translateY(30px);
@@ -495,7 +541,6 @@ footer {
   height: 100%;
   object-fit: cover;
 
-  border-radius: 4px;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
   opacity: 0;
   transform: translateY(40px);
@@ -576,15 +621,16 @@ footer {
 .gallery-item {
   position: relative;
   width: 100%;
+  
 }
 
 .gallery-item img {
   width: 100%;
   height: auto;
-  object-fit: cover;
+  object-fit: contain; 
   display: block;
-  border-radius: 8px;
   transition: transform 0.3s ease;
+  max-height: 90vh; 
 }
 
 .gallery-item img:hover {
@@ -592,15 +638,11 @@ footer {
 }
 
 .portrait img {
-  width: 100%;
   height: auto;
-  aspect-ratio: 3 / 4;
 }
 
 .landscape img {
-  width: 100%;
   height: auto;
-  aspect-ratio: 4 / 3;
 }
 
 /* LIGHTBOX */
@@ -621,7 +663,6 @@ footer {
 .lightbox img {
   max-width: 90%;
   max-height: 80%;
-  border-radius: 8px;
 }
 
 .close-lightbox {
@@ -668,8 +709,8 @@ footer {
   }
 
   .gallery-item.portrait img {
-    height: 100%;
-    object-fit: cover;
+     height: 100%;
+      object-fit: cover;
   }
 }
 
@@ -729,7 +770,6 @@ input,
 textarea {
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 6px;
   font-family: 'Lato', sans-serif;
   font-size: 1rem;
   background-color: white;
