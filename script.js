@@ -85,96 +85,108 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ===== GALLERY PAGE FEATURES =====
-  const categoryButtons = document.querySelectorAll('.category-btn');
-  const galleryItems = document.querySelectorAll('.gallery-item');
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImage = document.getElementById('lightbox-image');
-  const closeBtn = document.getElementById('close-lightbox');
-  const nextBtn = document.getElementById('next');
-  const prevBtn = document.getElementById('prev');
+const categoryButtons = document.querySelectorAll('.category-btn');
+const galleryItems = document.querySelectorAll('.gallery-item');
+const lightbox = document.getElementById('lightbox');
+const lightboxImage = document.getElementById('lightbox-image');
+const lightboxDescription = document.getElementById('lightbox-description');  // new description element
+const closeBtn = document.getElementById('close-lightbox');
+const nextBtn = document.getElementById('next');
+const prevBtn = document.getElementById('prev');
 
-  if (categoryButtons.length && galleryItems.length && lightbox && lightboxImage && closeBtn && nextBtn && prevBtn) {
-    let currentIndex = 0;
-    let currentItems = [];
+if (
+  categoryButtons.length &&
+  galleryItems.length &&
+  lightbox &&
+  lightboxImage &&
+  lightboxDescription &&  // check description container exists
+  closeBtn &&
+  nextBtn &&
+  prevBtn
+) {
+  let currentIndex = 0;
+  let currentItems = [];
 
-    // Category filter buttons
-    categoryButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        categoryButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
+  // Category filter buttons
+  categoryButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      categoryButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
 
-        const category = button.dataset.category;
-        currentItems = [];
+      const category = button.dataset.category;
+      currentItems = [];
 
-        galleryItems.forEach(item => {
-          const itemCategory = item.dataset.category;
-          const show = category === 'all' || itemCategory === category;
+      galleryItems.forEach(item => {
+        const itemCategory = item.dataset.category;
+        const show = category === 'all' || itemCategory === category;
 
-          if (show) {
-            item.style.display = 'block';
-            currentItems.push(item);
-            setTimeout(() => item.classList.add('visible'), 10);
-          } else {
-            item.style.display = 'none';
-            item.classList.remove('visible');
-          }
-        });
+        if (show) {
+          item.style.display = 'block';
+          currentItems.push(item);
+          setTimeout(() => item.classList.add('visible'), 10);
+        } else {
+          item.style.display = 'none';
+          item.classList.remove('visible');
+        }
       });
     });
+  });
 
-    // Lightbox open on image click
-    galleryItems.forEach((item, index) => {
-      const img = item.querySelector('img');
-      if (img) {
-        img.addEventListener('click', () => {
-          currentItems = Array.from(galleryItems).filter(i => i.style.display !== 'none');
-          currentIndex = currentItems.indexOf(item);
-          showImage(currentItems[currentIndex]);
-          lightbox.style.display = 'flex';
-        });
-      }
-    });
-
-    function showImage(item) {
-      const img = item.querySelector('img');
-      lightboxImage.src = img.src;
-      lightboxImage.alt = img.alt || '';
+  // Lightbox open on image click
+  galleryItems.forEach((item, index) => {
+    const img = item.querySelector('img');
+    if (img) {
+      img.addEventListener('click', () => {
+        currentItems = Array.from(galleryItems).filter(i => i.style.display !== 'none');
+        currentIndex = currentItems.indexOf(item);
+        showImage(currentItems[currentIndex]);
+        lightbox.style.display = 'flex';
+      });
     }
+  });
 
-    closeBtn.addEventListener('click', () => {
-      lightbox.style.display = 'none';
-    });
-
-    nextBtn.addEventListener('click', () => {
-      if (currentItems.length === 0) return;
-      currentIndex = (currentIndex + 1) % currentItems.length;
-      showImage(currentItems[currentIndex]);
-    });
-
-    prevBtn.addEventListener('click', () => {
-      if (currentItems.length === 0) return;
-      currentIndex = (currentIndex - 1 + currentItems.length) % currentItems.length;
-      showImage(currentItems[currentIndex]);
-    });
-
-    // Trigger default category on load
-    categoryButtons[0].click();
-
-    // Add landscape/portrait classes to gallery images
-    galleryItems.forEach(item => {
-      const img = item.querySelector('img');
-      if (!img) return;
-
-      img.onload = () => {
-        const isLandscape = img.naturalWidth > img.naturalHeight;
-        img.classList.add(isLandscape ? 'landscape' : 'portrait');
-      };
-      if (img.complete) {
-        const isLandscape = img.naturalWidth > img.naturalHeight;
-        img.classList.add(isLandscape ? 'landscape' : 'portrait');
-      }
-    });
+  function showImage(item) {
+    const img = item.querySelector('img');
+    lightboxImage.src = img.src;
+    lightboxImage.alt = img.alt || '';
+    lightboxDescription.textContent = img.getAttribute('data-description') || ''; // set description
   }
+
+  closeBtn.addEventListener('click', () => {
+    lightbox.style.display = 'none';
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (currentItems.length === 0) return;
+    currentIndex = (currentIndex + 1) % currentItems.length;
+    showImage(currentItems[currentIndex]);
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (currentItems.length === 0) return;
+    currentIndex = (currentIndex - 1 + currentItems.length) % currentItems.length;
+    showImage(currentItems[currentIndex]);
+  });
+
+  // Trigger default category on load
+  categoryButtons[0].click();
+
+  // Add landscape/portrait classes to gallery images
+  galleryItems.forEach(item => {
+    const img = item.querySelector('img');
+    if (!img) return;
+
+    img.onload = () => {
+      const isLandscape = img.naturalWidth > img.naturalHeight;
+      img.classList.add(isLandscape ? 'landscape' : 'portrait');
+    };
+    if (img.complete) {
+      const isLandscape = img.naturalWidth > img.naturalHeight;
+      img.classList.add(isLandscape ? 'landscape' : 'portrait');
+    }
+  });
+}
+
 
   // ===== CONTACT PAGE FEATURES =====
   const form = document.getElementById('contact-form');

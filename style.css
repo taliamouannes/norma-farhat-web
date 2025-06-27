@@ -424,7 +424,7 @@ footer {
 /* ABOUT PAGE STYLING */
 
 .about-hero {
-  padding: 60px 20px 40px;
+  padding: 60px 20px 20px;
   
 }
 
@@ -436,14 +436,15 @@ footer {
 
 .about-section {
   padding: 40px 20px;
+  padding-top: 20px;
 }
 
 .about-content {
   display: flex;
   flex-direction: row;
   gap: 40px;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center; 
+  justify-content: center; 
   flex-wrap: wrap;
 }
 
@@ -690,6 +691,17 @@ footer {
   cursor: pointer;
 }
 
+.lightbox-description {
+  color: #e4e1e1;
+  margin-top: 10px;
+  font-size: 1rem;
+  max-width: 90vw;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  user-select: none;
+}
+
+
 /* Portraits side-by-side with equal height */
 @media (min-width: 768px) {
   .gallery-grid {
@@ -713,6 +725,7 @@ footer {
       object-fit: cover;
   }
 }
+
 
 /* CONTACT PAGE STYLES */
 
