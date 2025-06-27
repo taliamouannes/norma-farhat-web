@@ -189,7 +189,8 @@ if (
 
 
   // ===== CONTACT PAGE FEATURES =====
-  const form = document.getElementById('contact-form');
+const form = document.getElementById('contact-form');
+
 if (form) {
   const fields = form.querySelectorAll('input, textarea');
   const status = document.getElementById('form-status');
@@ -214,6 +215,7 @@ if (form) {
         } else {
           error.textContent = 'Entrée invalide.';
         }
+
         error.style.display = 'block';
       } else {
         field.classList.remove('has-error');
@@ -227,20 +229,23 @@ if (form) {
       progressBar.classList.add('sending');
       status.textContent = '';
 
-      // Prepare data
-      const formData = new FormData(form);
-
-      // Send to Formspree
-      fetch("https://formspree.io/f/mldnolvz", {
+      // Send to Google Apps Script
+      fetch("https://script.google.com/macros/s/AKfycbyQeK3hWdRCwrIKVDumUr6BF4-69e5_2qTUA-NWtPqGAXyvMdz2ak69SuHwrV6oUj4upg/exec", {
         method: "POST",
         headers: {
-          'Accept': 'application/json'
+          "Content-Type": "application/json"
         },
-        body: formData
+        body: JSON.stringify({
+          name: form.name.value,
+          email: form.email.value,
+          subject: form.subject.value,
+          message: form.message.value
+        })
       })
       .then(response => {
         progressBar.classList.remove('sending');
         submitBtn.disabled = false;
+
         if (response.ok) {
           status.textContent = 'Merci pour votre message !';
           form.reset();
@@ -270,4 +275,5 @@ if (form) {
     });
   });
 }
+
 });
